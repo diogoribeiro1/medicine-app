@@ -1,6 +1,7 @@
 package com.example.medicalapp;
 
 import android.app.Activity;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +23,7 @@ import com.example.medicalapp.database.RemedioDAO;
 import com.example.medicalapp.model.RemedioModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.util.Locale;
 import java.util.Objects;
 
 public class AddNewRemedio extends BottomSheetDialogFragment {
@@ -28,8 +31,14 @@ public class AddNewRemedio extends BottomSheetDialogFragment {
     public static final String TAG = "ActionBottomDialog";
 
     private RemedioDAO dao = new RemedioDAO();
-    private EditText newRemedioText;
+    private EditText newRemedioText, newDoseText, newFrequenciaText, newHorarioText;
     private Button newRemedioSaveButton;
+
+    String alarmeFormatado;
+
+    int hour, minute;
+
+    private Button timeButton;
 
     public static AddNewRemedio newInstance(){
         return new AddNewRemedio();
@@ -56,17 +65,31 @@ public class AddNewRemedio extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         newRemedioText = requireView().findViewById(R.id.newRemedioText);
+        newDoseText = requireView().findViewById(R.id.newDoseText);
+        newFrequenciaText = requireView().findViewById(R.id.newFrequenciaText);
+        newHorarioText = requireView().findViewById(R.id.newHorarioText);
+
+
         newRemedioSaveButton = getView().findViewById(R.id.newRemedioButton);
+        timeButton = getView().findViewById(R.id.timePickerButton);
 
         boolean isUpdate = false;
 
         final Bundle bundle = getArguments();
         if(bundle != null){
             isUpdate = true;
-            String task = bundle.getString("remedio");
-            newRemedioText.setText(task);
-            assert task != null;
-            if(task.length()>0)
+            String nome = bundle.getString("remedio");
+            String dose = bundle.getString("dose");
+            String frequencia = bundle.getString("frequencia");
+            String horario = bundle.getString("horario");
+
+            newRemedioText.setText(nome);
+            newDoseText.setText(dose);
+            newFrequenciaText.setText(frequencia);
+            newHorarioText.setText(horario);
+
+            assert nome != null;
+            if(nome.length()>0)
                 newRemedioText.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark));
         }
 
@@ -97,18 +120,50 @@ public class AddNewRemedio extends BottomSheetDialogFragment {
         newRemedioSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String text = newRemedioText.getText().toString();
+                String nome = newRemedioText.getText().toString();
+                String dose = newDoseText.getText().toString();
+                String frequencia = newFrequenciaText.getText().toString();
+                String horarios = newHorarioText.getText().toString();
+
                 if(finalIsUpdate){
                    // db.updateTask(bundle.getInt("id"), text);
                 }
                 else {
-                    RemedioModel task = new RemedioModel();
-                    task.setRemedio(text);
-                    task.setStatus(0);
-                    dao.create(task);
+                    RemedioModel model = new RemedioModel();
+                    model.setRemedio(nome);
+                    model.setDose(dose);
+                    model.setFrequencia(frequencia);
+                    model.setHorarios(horarios);
+                    model.setAlarme(alarmeFormatado);
+                    model.setStatus(0);
+                    dao.create(model);
                     //db.insertTask(task);
                 }
                 dismiss();
+            }
+        });
+
+        timeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener()
+                {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute)
+                    {
+                        hour = selectedHour;
+                        minute = selectedMinute;
+                        alarmeFormatado = String.format(Locale.getDefault(), "%02d:%02d",hour, minute);
+                        timeButton.setText(alarmeFormatado);
+                    }
+                };
+
+                // int style = AlertDialog.THEME_HOLO_DARK;
+
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), /*style,*/ onTimeSetListener, hour, minute, true);
+
+                timePickerDialog.setTitle("Selecione o horario");
+                timePickerDialog.show();
             }
         });
     }

@@ -14,12 +14,12 @@ public class RemedioDAO {
 
     public List read(){
         RemedioModel remedio = new RemedioModel();
-        remedio.setRemedio("Sei la");
+        remedio.setRemedio("name");
         remedio.setStatus(0);
         remedio.setId(1);
 
         this.list = Stream.generate(() -> remedio)
-                .limit(2)
+                .limit(0)
                 .collect(Collectors.toList());
         return list;
     }

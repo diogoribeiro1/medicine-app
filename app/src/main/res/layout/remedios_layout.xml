@@ -8,7 +8,7 @@
     android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="8dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp">
@@ -20,7 +20,16 @@
             tool:text="This is an Remedio inside the application."
             android:paddingStart="8dp"/>
 
-    </RelativeLayout>
+        <TextView
+            android:layout_marginHorizontal="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/dueTime"
+            android:text="@string/place_holder"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
 
 
 

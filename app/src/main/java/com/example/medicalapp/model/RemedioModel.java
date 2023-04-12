@@ -1,11 +1,14 @@
 package com.example.medicalapp.model;
 
+import java.time.LocalDateTime;
+
 public class RemedioModel {
     private int id, status;
     private String remedio;
     private String dose;
     private String frequencia;
     private String horarios;
+    private String alarme;
 
     public int getId() {
         return id;
@@ -53,5 +56,13 @@ public class RemedioModel {
 
     public void setHorarios(String horarios) {
         this.horarios = horarios;
+    }
+
+    public String getAlarme() {
+        return alarme;
+    }
+
+    public void setAlarme(String alarme) {
+        this.alarme = alarme;
     }
 }

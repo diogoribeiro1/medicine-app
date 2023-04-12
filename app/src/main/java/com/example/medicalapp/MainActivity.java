@@ -1,6 +1,7 @@
 package com.example.medicalapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,6 +41,10 @@ public class MainActivity extends AppCompatActivity implements  DialogCloseListe
 
         remedioAdapter = new RemedioAdapter(this);
         remedioRecyclerView.setAdapter(remedioAdapter);
+
+        ItemTouchHelper itemTouchHelper = new
+                ItemTouchHelper(new RecyclerItemTouchHelper(remedioAdapter));
+        itemTouchHelper.attachToRecyclerView(remedioRecyclerView);
 
         fab = findViewById(R.id.fab);
 

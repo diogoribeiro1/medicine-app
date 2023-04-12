@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">MedicalApp</string>
+    <string name="place_holder">place_holder</string>
+
 
     <style name="DialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="android:windowIsFloating">false</item>
