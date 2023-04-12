@@ -28,6 +28,21 @@ public class RemedioDAO {
         list.add(remedio);
     }
 
+    public void update(RemedioModel model){
+        list.stream().findAny().filter(e -> e.getId() == model.getId()).map(remedioToUpdate -> {
+
+            int indice = list.indexOf(remedioToUpdate);
+            remedioToUpdate.setRemedio(model.getRemedio());
+            remedioToUpdate.setDose(model.getDose());
+            remedioToUpdate.setFrequencia(model.getFrequencia());
+            remedioToUpdate.setHorarios(model.getHorarios());
+            remedioToUpdate.setAlarme(model.getAlarme());
+
+            list.set(indice, remedioToUpdate);
+            return null;
+        }).orElse(model);
+    }
+
     public Optional<RemedioModel> getById(Integer id){
         return list.stream()
                 .findAny().filter(e -> e.getId() == id);

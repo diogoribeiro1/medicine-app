@@ -69,7 +69,6 @@ public class AddNewRemedio extends BottomSheetDialogFragment {
         newFrequenciaText = requireView().findViewById(R.id.newFrequenciaText);
         newHorarioText = requireView().findViewById(R.id.newHorarioText);
 
-
         newRemedioSaveButton = getView().findViewById(R.id.newRemedioButton);
         timeButton = getView().findViewById(R.id.timePickerButton);
 
@@ -125,19 +124,19 @@ public class AddNewRemedio extends BottomSheetDialogFragment {
                 String frequencia = newFrequenciaText.getText().toString();
                 String horarios = newHorarioText.getText().toString();
 
+                RemedioModel model = new RemedioModel();
+                model.setRemedio(nome);
+                model.setDose(dose);
+                model.setFrequencia(frequencia);
+                model.setHorarios(horarios);
+                model.setAlarme(alarmeFormatado);
+                model.setStatus(0);
+
                 if(finalIsUpdate){
-                   // db.updateTask(bundle.getInt("id"), text);
+                   dao.update(model);
                 }
                 else {
-                    RemedioModel model = new RemedioModel();
-                    model.setRemedio(nome);
-                    model.setDose(dose);
-                    model.setFrequencia(frequencia);
-                    model.setHorarios(horarios);
-                    model.setAlarme(alarmeFormatado);
-                    model.setStatus(0);
                     dao.create(model);
-                    //db.insertTask(task);
                 }
                 dismiss();
             }
