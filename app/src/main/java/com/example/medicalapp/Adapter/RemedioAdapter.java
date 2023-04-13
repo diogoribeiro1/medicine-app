@@ -69,6 +69,7 @@ public class RemedioAdapter extends RecyclerView.Adapter<RemedioAdapter.ViewHold
         bundle.putString("dose", item.getDose());
         bundle.putString("frequencia", item.getFrequencia());
         bundle.putString("horario", item.getHorarios());
+        bundle.putString("alarme", item.getAlarme());
 
         AddNewRemedio fragment = new AddNewRemedio();
         fragment.setArguments(bundle);

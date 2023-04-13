@@ -29,15 +29,11 @@ import java.util.Objects;
 public class AddNewRemedio extends BottomSheetDialogFragment {
 
     public static final String TAG = "ActionBottomDialog";
-
     private RemedioDAO dao = new RemedioDAO();
     private EditText newRemedioText, newDoseText, newFrequenciaText, newHorarioText;
     private Button newRemedioSaveButton;
-
     String alarmeFormatado;
-
     int hour, minute;
-
     private Button timeButton;
 
     public static AddNewRemedio newInstance(){
@@ -47,8 +43,7 @@ public class AddNewRemedio extends BottomSheetDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(STYLE_NORMAL, R.style.DialogStyle);
-    }
+        }
 
     @Nullable
     @Override
@@ -81,11 +76,13 @@ public class AddNewRemedio extends BottomSheetDialogFragment {
             String dose = bundle.getString("dose");
             String frequencia = bundle.getString("frequencia");
             String horario = bundle.getString("horario");
+            String alarme = bundle.getString("alarme");
 
             newRemedioText.setText(nome);
             newDoseText.setText(dose);
             newFrequenciaText.setText(frequencia);
             newHorarioText.setText(horario);
+            timeButton.setText(alarme);
 
             assert nome != null;
             if(nome.length()>0)
@@ -116,54 +113,43 @@ public class AddNewRemedio extends BottomSheetDialogFragment {
         });
 
         final boolean finalIsUpdate = isUpdate;
-        newRemedioSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String nome = newRemedioText.getText().toString();
-                String dose = newDoseText.getText().toString();
-                String frequencia = newFrequenciaText.getText().toString();
-                String horarios = newHorarioText.getText().toString();
+        newRemedioSaveButton.setOnClickListener(v -> {
+            String nome = newRemedioText.getText().toString();
+            String dose = newDoseText.getText().toString();
+            String frequencia = newFrequenciaText.getText().toString();
+            String horarios = newHorarioText.getText().toString();
 
-                RemedioModel model = new RemedioModel();
-                model.setRemedio(nome);
-                model.setDose(dose);
-                model.setFrequencia(frequencia);
-                model.setHorarios(horarios);
-                model.setAlarme(alarmeFormatado);
-                model.setStatus(0);
+            RemedioModel model = new RemedioModel();
+            model.setRemedio(nome);
+            model.setDose(dose);
+            model.setFrequencia(frequencia);
+            model.setHorarios(horarios);
+            model.setAlarme(alarmeFormatado);
+            model.setStatus(0);
 
-                if(finalIsUpdate){
-                   dao.update(model);
-                }
-                else {
-                    dao.create(model);
-                }
-                dismiss();
+            if(finalIsUpdate){
+               dao.update(model);
             }
+            else {
+                dao.create(model);
+            }
+            dismiss();
         });
 
-        timeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener()
-                {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute)
-                    {
-                        hour = selectedHour;
-                        minute = selectedMinute;
-                        alarmeFormatado = String.format(Locale.getDefault(), "%02d:%02d",hour, minute);
-                        timeButton.setText(alarmeFormatado);
-                    }
-                };
+        timeButton.setOnClickListener(view1 -> {
+            TimePickerDialog.OnTimeSetListener onTimeSetListener = (timePicker, selectedHour, selectedMinute) -> {
+                hour = selectedHour;
+                minute = selectedMinute;
+                alarmeFormatado = String.format(Locale.getDefault(), "%02d:%02d",hour, minute);
+                timeButton.setText(alarmeFormatado);
+            };
 
-                // int style = AlertDialog.THEME_HOLO_DARK;
+            // int style = AlertDialog.THEME_HOLO_DARK;
 
-                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), /*style,*/ onTimeSetListener, hour, minute, true);
+            TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), /*style,*/ onTimeSetListener, hour, minute, true);
 
-                timePickerDialog.setTitle("Selecione o horario");
-                timePickerDialog.show();
-            }
+            timePickerDialog.setTitle("Selecione o horario");
+            timePickerDialog.show();
         });
     }
 

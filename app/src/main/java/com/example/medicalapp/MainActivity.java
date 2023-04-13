@@ -17,6 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,13 +27,13 @@ public class MainActivity extends AppCompatActivity implements  DialogCloseListe
     private RecyclerView remedioRecyclerView;
     private RemedioAdapter remedioAdapter;
     private List<RemedioModel> remedioList;
-
     private FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         remedioList = new ArrayList<>();
 
@@ -52,12 +53,7 @@ public class MainActivity extends AppCompatActivity implements  DialogCloseListe
 
         remedioAdapter.setRemedioList(remedioList);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddNewRemedio.newInstance().show(getSupportFragmentManager(), AddNewRemedio.TAG);
-            }
-        });
+        fab.setOnClickListener(view -> AddNewRemedio.newInstance().show(getSupportFragmentManager(), AddNewRemedio.TAG));
         
     }
     @Override
