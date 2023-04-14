@@ -75,38 +75,11 @@ public class MainActivity extends AppCompatActivity implements  DialogCloseListe
         remedioAdapter.notifyDataSetChanged();
     }
 
-    private void scheduleNotification() {
-        Intent intent = new Intent(getApplicationContext(), Notification.class);
-        intent.putExtra("titleExtra", "Alarme");
-        intent.putExtra("messageExtra", "Hora de tomar o remedio");
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                getApplicationContext(),
-                1,
-                intent,
-                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
-        );
-
-        // Date timeInDate = new Date();
-        // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        // String dateString = sdf.format(timeInDate);
-        // Long time = Long.parseLong(dateString);
-        Date timeInDate = new Date();
-        long timeInMillis = timeInDate.getTime();
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                timeInMillis,
-                pendingIntent
-        );
-    }
-
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String name = "Notif Channel";
             String desc = "A Description of the Channel";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("channel1", name, importance);
             channel.setDescription(desc);
 

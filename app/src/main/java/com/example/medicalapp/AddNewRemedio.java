@@ -30,6 +30,7 @@ import com.example.medicalapp.model.RemedioModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -143,7 +144,8 @@ public class AddNewRemedio extends BottomSheetDialogFragment {
             else {
                 dao.create(model);
             }
-            setAlarm();
+            scheduleNotification();
+           // setAlarm();
             dismiss();
         });
 
@@ -177,6 +179,27 @@ public class AddNewRemedio extends BottomSheetDialogFragment {
         Intent intent = new Intent(getContext(), Notification.class);
         pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        Toast.makeText(getContext(), "Alarme pronto", Toast.LENGTH_SHORT).show();
+    }
+
+    private void scheduleNotification() {
+        Intent intent = new Intent(getContext(), Notification.class);
+        intent.putExtra("titleExtra", "Alarme");
+        intent.putExtra("messageExtra", "Hora de tomar o remedio");
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                getContext(),
+                1,
+                intent,
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
+        );
+
+        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(),
+                pendingIntent
+        );
         Toast.makeText(getContext(), "Alarme pronto", Toast.LENGTH_SHORT).show();
     }
 
