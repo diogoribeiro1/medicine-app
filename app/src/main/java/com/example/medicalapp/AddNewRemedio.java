@@ -1,8 +1,13 @@
 package com.example.medicalapp;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +29,7 @@ import com.example.medicalapp.database.RemedioDAO;
 import com.example.medicalapp.model.RemedioModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -35,6 +42,9 @@ public class AddNewRemedio extends BottomSheetDialogFragment {
     String alarmeFormatado;
     int hour, minute;
     private Button timeButton;
+    private Calendar calendar;
+    private AlarmManager alarmManager;
+    private PendingIntent pendingIntent;
 
     public static AddNewRemedio newInstance(){
         return new AddNewRemedio();
@@ -133,6 +143,7 @@ public class AddNewRemedio extends BottomSheetDialogFragment {
             else {
                 dao.create(model);
             }
+            setAlarm();
             dismiss();
         });
 
@@ -142,15 +153,31 @@ public class AddNewRemedio extends BottomSheetDialogFragment {
                 minute = selectedMinute;
                 alarmeFormatado = String.format(Locale.getDefault(), "%02d:%02d",hour, minute);
                 timeButton.setText(alarmeFormatado);
+
+                calendar = Calendar.getInstance();
+                calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
+                calendar.set(Calendar.MINUTE, timePicker.getMinute());
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+
+
             };
 
-            // int style = AlertDialog.THEME_HOLO_DARK;
+            int style = AlertDialog.THEME_HOLO_DARK;
 
             TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), /*style,*/ onTimeSetListener, hour, minute, true);
 
             timePickerDialog.setTitle("Selecione o horario");
             timePickerDialog.show();
         });
+    }
+
+    private void setAlarm(){
+        alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getContext(), Notification.class);
+        pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        Toast.makeText(getContext(), "Alarme pronto", Toast.LENGTH_SHORT).show();
     }
 
     @Override

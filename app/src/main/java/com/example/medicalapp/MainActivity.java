@@ -5,7 +5,14 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -14,14 +21,16 @@ import com.example.medicalapp.database.RemedioDAO;
 import com.example.medicalapp.model.RemedioModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class MainActivity extends AppCompatActivity implements  DialogCloseListener{
+public class MainActivity extends AppCompatActivity implements  DialogCloseListener {
 
     RemedioDAO dao = new RemedioDAO();
     private RecyclerView remedioRecyclerView;
@@ -34,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements  DialogCloseListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Objects.requireNonNull(getSupportActionBar()).hide();
+
+        createNotificationChannel();
 
         remedioList = new ArrayList<>();
 
@@ -54,12 +65,54 @@ public class MainActivity extends AppCompatActivity implements  DialogCloseListe
         remedioAdapter.setRemedioList(remedioList);
 
         fab.setOnClickListener(view -> AddNewRemedio.newInstance().show(getSupportFragmentManager(), AddNewRemedio.TAG));
-        
+
     }
+
     @Override
-    public void handleDialogClose(DialogInterface dialog){
+    public void handleDialogClose(DialogInterface dialog) {
         Collections.reverse(remedioList);
         remedioAdapter.setRemedioList(remedioList);
         remedioAdapter.notifyDataSetChanged();
     }
+
+    private void scheduleNotification() {
+        Intent intent = new Intent(getApplicationContext(), Notification.class);
+        intent.putExtra("titleExtra", "Alarme");
+        intent.putExtra("messageExtra", "Hora de tomar o remedio");
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                getApplicationContext(),
+                1,
+                intent,
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
+        );
+
+        // Date timeInDate = new Date();
+        // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        // String dateString = sdf.format(timeInDate);
+        // Long time = Long.parseLong(dateString);
+        Date timeInDate = new Date();
+        long timeInMillis = timeInDate.getTime();
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                timeInMillis,
+                pendingIntent
+        );
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String name = "Notif Channel";
+            String desc = "A Description of the Channel";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel("channel1", name, importance);
+            channel.setDescription(desc);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
 }
