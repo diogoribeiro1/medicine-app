@@ -26,4 +26,12 @@ A área de trabalho contém duas pastas por padrão mais utilizadas na aplicaç�
 
 ## Telas do app
 
-                    
+![Tela Inicial](../../Pictures/Screenshots/Screenshot from 2023-04-17 13-15-19.png)
+
+![Adicionar remedio](../../Pictures/Screenshots/Screenshot from 2023-04-17 13-10-55.png)
+
+![alarme](../../Pictures/Screenshots/Screenshot from 2023-04-17 13-10-44.png)
+
+![Editar](../../Pictures/Screenshots/Screenshot from 2023-04-17 13-14-13.png)
+
+![Deletar](../../Pictures/Screenshots/Screenshot from 2023-04-17 13-14-26.png)
