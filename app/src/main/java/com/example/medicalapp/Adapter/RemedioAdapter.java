@@ -46,7 +46,10 @@ public class RemedioAdapter extends RecyclerView.Adapter<RemedioAdapter.ViewHold
         RemedioModel item = remedioList.get(position);
         holder.alarme.setText(item.getAlarme());
         holder.remedio.setText(item.getRemedio());
-        holder.remedio.setChecked(toBoolean(item.getStatus()));
+        holder.dose.setText(item.getDose());
+        holder.frequencia.setText(item.getFrequencia());
+        holder.horarios.setText(item.getHorarios());
+        //holder.remedio.setChecked(toBoolean(item.getStatus()));
     }
     public Context getContext() {
         return this.mainActivity;
@@ -79,14 +82,21 @@ public class RemedioAdapter extends RecyclerView.Adapter<RemedioAdapter.ViewHold
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        CheckBox remedio;
+        TextView remedio;
+        TextView dose;
+        TextView frequencia;
+
+        TextView horarios;
+
         TextView alarme;
 
         ViewHolder(View view){
             super(view);
             remedio = view.findViewById(R.id.remedioCheckBox);
             alarme = view.findViewById(R.id.dueTime);
-
+            dose = view.findViewById(R.id.doseTextView);
+            frequencia = view.findViewById(R.id.frequenciaTextView);
+            horarios = view.findViewById(R.id.horariosTextView);
         }
     }
 }
