@@ -12,9 +12,16 @@ O medicine app é um aplicativo de gerenciamento de tarefas que ajuda pessoas a 
 
 ## Funcionalidades do Sistema
 
-- Inserir remédio: nome do medicamento, doses, frequencia, horarios e um alarme.
-- Editar remédio
-- Deletar remédio
+- Inserir remédio:
+     Inserir nome do medicamento, 
+     Inserir doses, 
+     Inserir frequencia, 
+     Inserir horarios e 
+     Inserir um alarme;
+
+- Editar remédio;
+
+- Deletar remédio;
 
 
 ## Estrutura de Pastas
@@ -26,7 +33,7 @@ A área de trabalho contém duas pastas por padrão mais utilizadas na aplicaç�
 
 ## Melhorias a serem feitas
 
-Tratamento de erro nos inputs do formulário de adição e edição 
+Tratamento de erros nos inputs do formulário de adição e edição 
 
 ## Link do Video
 
