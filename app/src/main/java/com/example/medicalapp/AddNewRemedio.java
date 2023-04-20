@@ -29,6 +29,8 @@ import com.example.medicalapp.database.RemedioDAO;
 import com.example.medicalapp.model.RemedioModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -140,6 +142,17 @@ public class AddNewRemedio extends BottomSheetDialogFragment {
             model.setAlarme(alarmeFormatado);
             model.setStatus(0);
 
+            LocalDate hoje = LocalDate.now();
+
+            // Definir o formato de saída desejado
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, dd, MMM");
+
+            // Formatar a data atual usando o formato definido
+            // E fazendo Split para dia, data e mes
+            String dataFormatada = hoje.format(formatter);
+
+            model.setDatetime(dataFormatada);
+
             if(finalIsUpdate){
 
                 String[] partes = model.getAlarme().split(":");
@@ -157,7 +170,7 @@ public class AddNewRemedio extends BottomSheetDialogFragment {
             else {
                 dao.create(model);
             }
-            scheduleNotification();
+            scheduleNotification(model.getRemedio());
             dismiss();
         });
 
@@ -183,10 +196,10 @@ public class AddNewRemedio extends BottomSheetDialogFragment {
         });
     }
 
-    private void scheduleNotification() {
+    private void scheduleNotification(String nomeRemedio) {
         Intent intent = new Intent(getContext(), Notification.class);
         intent.putExtra("titleExtra", "Alarme");
-        intent.putExtra("messageExtra", "Hora de tomar o remedio");
+        intent.putExtra("messageExtra", "Hora de tomar o remedio: " + nomeRemedio);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 getContext(),

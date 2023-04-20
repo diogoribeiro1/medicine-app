@@ -26,7 +26,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/day"
+                android:id="@+id/dia"
                 android:text="Tue"
                 android:layout_gravity="center"
                 android:textSize="18sp"
@@ -36,7 +36,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/date"
+                android:id="@+id/data"
                 android:text="18"
                 android:layout_gravity="center"
                 android:textSize="24sp"
@@ -45,7 +45,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/month"
+                android:id="@+id/mes"
                 android:layout_gravity="center"
                 android:text="Nov"
                 android:textSize="18sp"

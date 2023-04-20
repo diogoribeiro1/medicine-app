@@ -29,7 +29,7 @@ public class RemedioDAO {
     }
 
     public void update(RemedioModel model){
-        list.stream().findAny().filter(e -> e.getId() == model.getId()).map(remedioToUpdate -> {
+        list.stream().filter(e -> e.getId() == model.getId()).findFirst().map(remedioToUpdate -> {
 
             int indice = list.indexOf(remedioToUpdate);
             remedioToUpdate.setRemedio(model.getRemedio());
@@ -45,6 +45,7 @@ public class RemedioDAO {
 
     public Optional<RemedioModel> getById(Integer id){
         return list.stream()
-                .findAny().filter(e -> e.getId() == id);
+                .filter(e -> e.getId() == id)
+                .findFirst();
     }
 }

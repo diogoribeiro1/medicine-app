@@ -49,6 +49,9 @@ public class RemedioAdapter extends RecyclerView.Adapter<RemedioAdapter.ViewHold
         holder.dose.setText(item.getDose());
         holder.frequencia.setText(item.getFrequencia());
         holder.horarios.setText(item.getHorarios());
+        holder.dia.setText(item.getDatetime().split(",")[0]);
+        holder.data.setText(item.getDatetime().split(",")[1]);
+        holder.mes.setText(item.getDatetime().split(",")[2]);
         //holder.remedio.setChecked(toBoolean(item.getStatus()));
     }
     public Context getContext() {
@@ -90,6 +93,12 @@ public class RemedioAdapter extends RecyclerView.Adapter<RemedioAdapter.ViewHold
 
         TextView alarme;
 
+        TextView dia;
+
+        TextView data;
+
+        TextView mes;
+
         ViewHolder(View view){
             super(view);
             remedio = view.findViewById(R.id.remedioCheckBox);
@@ -97,6 +106,10 @@ public class RemedioAdapter extends RecyclerView.Adapter<RemedioAdapter.ViewHold
             dose = view.findViewById(R.id.doseTextView);
             frequencia = view.findViewById(R.id.frequenciaTextView);
             horarios = view.findViewById(R.id.horariosTextView);
+
+            dia = view.findViewById(R.id.dia);
+            data = view.findViewById(R.id.data);
+            mes = view.findViewById(R.id.mes);
         }
     }
 }

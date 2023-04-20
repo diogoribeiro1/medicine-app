@@ -10,6 +10,16 @@ public class RemedioModel {
     private String horarios;
     private String alarme;
 
+    private String datetime;
+
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
+    }
+
     public int getId() {
         return id;
     }

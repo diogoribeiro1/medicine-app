@@ -16,7 +16,6 @@ O medicine app é um aplicativo de gerenciamento de tarefas que ajuda pessoas a 
 - Editar remédio
 - Deletar remédio
 
-
 ## Estrutura de Pastas
 
 A área de trabalho contém duas pastas por padrão mais utilizadas na aplicação, onde:
