@@ -28,6 +28,10 @@ A área de trabalho contém duas pastas por padrão mais utilizadas na aplicaç�
 
 Tratamento de erro nos inputs do formulário de adição e edição 
 
+## Link do Video
+
+https://drive.google.com/file/d/1Cp0FkltYq0A1YE3LLCGiGG7b-Abn3hvV/view
+
 ## Telas do app
 
 ![Tela inicial](https://user-images.githubusercontent.com/89152312/232548857-cb5b4990-c8a9-4eb1-9536-84ea904bb429.png)
